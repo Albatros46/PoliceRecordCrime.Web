@@ -1,0 +1,69 @@
+﻿@model PoliceRecordCrime.ViewModels.PoliceStationIndexViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container justify-content-center">
+    <div class="card">
+        <div class="card-title">
+            <h3 class="align-content-center" style="text-align:center; font-size:large;">Police Station</h3>  
+        </div>
+        <div class="card-subtitle">
+            <a class="btn-primary" asp-action="Create">Add New</a>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.PoliceStations)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>@item.Location</td>
+                            <td>
+                                <input type="button" class="btn-primary" value="Edit"/>
+                                <input type="button" class="btn-danger" value="Delete"/>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+            Page @(Model.PageInfo.CurrentPage) of @(Model.PageInfo.TotalPages)
+            @if (Model.PageInfo.HasPreviosPage)
+            {
+                <a asp-action="Index" asp-route-page="@(Model.PageInfo.CurrentPage-1)">Previous</a>
+            }
+            else
+            {
+                <span>Previous</span>
+            }
+            @for (int i = 1; i <= Model.PageInfo.TotalItems; i++)
+            {
+                if (i==Model.PageInfo.CurrentPage)
+                {
+                    <span>@i</span>
+                }else
+                {
+                    <a asp-action="Index" asp-route-page="@i">@i</a>
+                }
+            }
+            @if (Model.PageInfo.HasNextPage)
+            {
+                <a asp-action="Index" asp-route-page="@(Model.PageInfo.CurrentPage+1)">Next</a>
+            }else{
+                <span>Next</span>
+            }
+        </div>
+    </div>
+</div>
+
